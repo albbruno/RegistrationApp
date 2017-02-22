@@ -1,0 +1,73 @@
+﻿@model RegistrationApp_Web_.Models.StudentPage
+
+@{
+    ViewBag.Title = "StudentPage";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<h2>StudentPage</h2>
+
+<table class="table-striped table-bordered table table-hover">
+
+    <tr>
+        <th class="table-bordered">
+            CourseId
+        </th>
+        <th class="table-bordered">
+            Course Name
+        </th>
+        <th class="table-bordered">
+            Course Time
+        </th>
+        <th class="table-bordered">
+            CreditHour
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model.Courses)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.Time)
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.CreditHour)
+            </td>
+        </tr>
+
+    }
+</table>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Add Course By Id</legend>
+        <div class="editor-label">
+            @Html.LabelFor(x => x.CourseId)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(x => x.CourseId)
+        </div>
+
+        <br />
+        <br />
+
+        <div>Add/Remove: @Html.TextBoxFor(x => x.AddRemoveStr, new { @placeholder = "Type 'ADD' to add and 'REMOVE' to remove" })</div>
+
+        <br />
+        <input type="submit" value="Add Course" class="btn btn-default" />
+
+    </fieldset>
+}
+
+<p class="text-capitalize text-warning">@Html.DisplayFor(x => x.DisplayMessege)</p>

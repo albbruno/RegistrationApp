@@ -1,0 +1,59 @@
+﻿@model RegistrationApp_Web_.Models.CoursesPage
+
+@{
+    ViewBag.Title = "Available Courses";
+}
+
+<h2>CoursePage</h2>
+
+<div class="table col-md-2">
+
+
+    <table class="table-striped table-bordered table table-hover">
+
+        <tr>
+            <th class="table-bordered">
+                CourseId
+            </th>
+            <th class="table-bordered">
+                Course Name
+            </th>
+            <th class="table-bordered">
+                Course Time
+            </th>
+            <th class="table-bordered">
+                CreditHour
+            </th>
+        </tr>
+
+
+
+        @foreach (var item in Model.AllCourses)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(x => item.Time)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(x => item.CreditHour)
+                </td>
+            </tr>
+
+        }
+    </table>
+
+</div>
+
+<h1>Current Course Schedule</h1>
+
+@Html.Action("StudentCourses")
+

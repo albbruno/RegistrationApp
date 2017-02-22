@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @System.Web.Optimization.Styles.Render("~/Content/css")
+    @System.Web.Optimization.Styles.Render("~/Scripts/jquery")
+</head>
+<body>
+
+        <nav class="navbar navbar-inverse bg-inverse">
+            <a href="@Url.Action("Home", "Student")" class="col-md-3"><span>Home</span></a>
+            <a href="@Url.Action("Home", "Student")" class="col-md-3"><span>MyInfo</span></a>
+            <a href="@Url.Action("CoursePage", "Student")" class="col-md-3"><span>Classes</span></a>
+            <a href="@Url.Action("Home", "Student")" class="col-md-3"><span>About</span></a>
+        </nav>
+
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+

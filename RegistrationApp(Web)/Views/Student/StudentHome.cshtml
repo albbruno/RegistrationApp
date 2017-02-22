@@ -1,0 +1,22 @@
+﻿@model RegistrationApp_Web_.Models.StudentHome
+
+@{
+    ViewBag.Title = "Student Home Page";
+}
+
+<h2>StudentHome</h2>
+
+<p>Hello @Model.CurrentUser.Student.Name</p>
+
+<br />
+
+<h1>Here are your classes</h1>
+
+<br />
+
+<div class="table col-md-2">
+
+
+    @Html.Action("StudentCourses")
+
+</div>

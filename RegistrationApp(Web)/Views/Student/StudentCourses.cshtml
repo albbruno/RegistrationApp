@@ -1,0 +1,62 @@
+﻿@model RegistrationApp_Web_.Models.StudentCourseList
+
+<table class="table-striped table-bordered table table-hover">
+
+    <tr>
+        <th class="table-bordered">
+            CourseId
+        </th>
+        <th class="table-bordered">
+            Course Name
+        </th>
+        <th class="table-bordered">
+            Course Time
+        </th>
+        <th class="table-bordered">
+            CreditHour
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model.CurrentUser.Student.Courses.ToList())
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.Value.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Value.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.Value.Time)
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.Value.CreditHour)
+            </td>
+        </tr>
+
+    }
+</table>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Add Course By Id</legend>
+        <div class="editor-label">
+            @Html.LabelFor(x => x.CourseId)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(x => x.CourseId)
+            @Html.ValidationMessageFor(x => x.CourseId)
+        </div>
+
+        <input type="submit" value="Add Course" class="btn btn-default"/>
+
+
+    </fieldset>
+}
+
+<p class="text-capitalize text-warning">@Html.DisplayFor(x => x.DisplayMessege)</p>

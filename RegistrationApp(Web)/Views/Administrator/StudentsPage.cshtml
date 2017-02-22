@@ -1,0 +1,60 @@
+﻿@model RegistrationApp_Web_.Models.StudentsPage
+
+@{
+    ViewBag.Title = "StudentsPage";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<h2>StudentsPage</h2>
+
+<table class="table-striped table-bordered table table-hover">
+
+    <tr>
+        <th class="table-bordered">
+            Student Id
+        </th>
+        <th class="table-bordered">
+            Student Name
+        </th>
+        <th class="table-bordered">
+            Student Type
+        </th>
+    </tr>
+
+
+
+    @foreach (var item in Model.AllStudents)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.Type)
+            </td>
+        </tr>
+
+    }
+</table>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Find Student By Id</legend>
+        <div class="editor-label">
+            @Html.LabelFor(x => x.StudentId)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(x => x.StudentId)
+        </div>
+
+        <input type="submit" value="Add Course" class="btn btn-default" />
+
+    </fieldset>
+}
+
