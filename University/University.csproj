@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveUser.cs" />
+    <Compile Include="ConnectionObj.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="iCourse.cs" />
     <Compile Include="iStudent.cs" />

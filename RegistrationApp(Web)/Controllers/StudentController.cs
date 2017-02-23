@@ -22,9 +22,6 @@ namespace RegistrationApp_Web_.Controllers
             ViewBag.Title = "This Is The Home Page";
 
             StudentHome tmpMdl = new StudentHome();
-            //tmpMdl.Init();
-
-            //tmp.InitStudentInfo(UserId, StudentId);
 
             return View("StudentHome", tmpMdl);
         }
@@ -54,9 +51,9 @@ namespace RegistrationApp_Web_.Controllers
         {
             try
             {
-                if (!mdl.ConflictingCourse(mdl.CourseId))
+                if (!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.CurrentUser.studentId))
                 {
-                    mdl.AddCourseToSchedule(mdl.CurrentUser.studentId, mdl.CourseId);
+                    ConnectionObj.AddCourseToSchedule(mdl.CurrentUser.studentId, mdl.CourseId);
                 }
                 mdl.DisplayMessege = "";
             }

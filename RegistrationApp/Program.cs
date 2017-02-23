@@ -17,9 +17,9 @@ namespace RegistrationApp
             bool queryInput = false;
             string x;
 
-            Console.WriteLine(ConnectionObj.CheckUserInfo("popy", "poop"));
+            Console.WriteLine(DatabaseLib.ConnectionObj.CheckUserInfo("popy", "poop"));
 
-            ConnectionObj.GetCourseIds();
+            DatabaseLib.ConnectionObj.GetCourseIds();
 
             //Student test = ConnectionObj.GetStudent();
 

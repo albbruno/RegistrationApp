@@ -1,47 +1,34 @@
-﻿@model RegistrationApp_Web_.Models.StudentPage
+﻿@model RegistrationApp_Web_.Models.StudentCourseList
 
-@{
-    ViewBag.Title = "StudentPage";
-    Layout = "~/Views/_AdminLayout.cshtml";
-}
-
-<h2>StudentPage</h2>
+<h2>StudentRoster</h2>
 
 <table class="table-striped table-bordered table table-hover">
 
     <tr>
         <th class="table-bordered">
-            CourseId
+            Student Id
         </th>
         <th class="table-bordered">
-            Course Name
+            Student Name
         </th>
         <th class="table-bordered">
-            Course Time
-        </th>
-        <th class="table-bordered">
-            CreditHour
+            Student Type
         </th>
     </tr>
 
-
-    @foreach (var item in Model.Courses)
+    @foreach (var item in Model.Students)
     {
 
         <tr>
             <td>
-                @Html.DisplayFor(x => item.CourseId)
+                @Html.DisplayFor(x => item.StudentId)
             </td>
             <td>
                 @Html.DisplayFor(x => item.Name)
             </td>
 
             <td>
-                @Html.DisplayFor(x => item.Time)
-            </td>
-
-            <td>
-                @Html.DisplayFor(x => item.CreditHour)
+                @Html.DisplayFor(x => item.Type)
             </td>
         </tr>
 
@@ -51,12 +38,27 @@
 @using (Html.BeginForm())
 {
     <fieldset>
-        <legend>Add Course By Id</legend>
+        <legend>Choose Course By Id</legend>
         <div class="editor-label">
             @Html.LabelFor(x => x.CourseId)
         </div>
         <div class="editor-field">
             @Html.TextBoxFor(x => x.CourseId)
+        </div>
+
+        <input type="submit" value="Select Course" class="btn btn-default" />
+    </fieldset>
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Add Remove Student By Id</legend>
+        <div class="editor-label">
+            @Html.LabelFor(x => x.StudentId)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(x => x.StudentId)
         </div>
 
         <br />
@@ -68,5 +70,3 @@
 
     </fieldset>
 }
-
-<p class="text-capitalize text-warning">@Html.DisplayFor(x => x.DisplayMessege)</p>

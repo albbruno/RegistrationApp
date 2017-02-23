@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using University;
 
 namespace RegistrationApp_Web_.Controllers
 {
@@ -34,7 +35,7 @@ namespace RegistrationApp_Web_.Controllers
         [HttpPost]
         public ActionResult StudentsPage(StudentsPage Mdl)
         {
-            University.Student tmpStd;
+            iStudent tmpStd;
             Mdl.Set();
 
             if (Mdl.FindStudent(Mdl.StudentId, out tmpStd))
@@ -59,9 +60,9 @@ namespace RegistrationApp_Web_.Controllers
             {
                 try
                 {
-                    if(!mdl.ConflictingCourse(mdl.CourseId))
+                    if(!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.StudentId))
                     {
-                        mdl.AddCourseToSchedule(mdl.aStudent.StudentId, mdl.CourseId);
+                        ConnectionObj.AddCourseToSchedule(mdl.aStudent.StudentId, mdl.CourseId);
                         mdl.DisplayMessege = "";
                     }
                 }
@@ -73,7 +74,7 @@ namespace RegistrationApp_Web_.Controllers
             }
             else if (mdl.AddRemoveStr == "REMOVE")
             {
-                mdl.RemoveCourse(mdl.StudentId, mdl.CourseId);
+                ConnectionObj.RemoveCourse(mdl.StudentId, mdl.CourseId);
                 mdl.Set();
             }
 
@@ -82,7 +83,21 @@ namespace RegistrationApp_Web_.Controllers
             return View("StudentPage", mdl);
         }
 
-        public ActionResult StudentPage(StudentPage mdl)
+        public ActionResult CoursePage()
+        {
+            CoursesPage mdl = new CoursesPage();
+            mdl.Init();
+            return View("CoursePage", mdl);
+        }
+
+        [HttpGet]
+        public PartialViewResult ChooseCourse()
+        {
+            return  PartialView();
+        }
+
+        [HttpPost]
+        public PartialViewResult ChooseCourse(StudentCourseList mdl)
         {
 
 
@@ -90,9 +105,9 @@ namespace RegistrationApp_Web_.Controllers
             {
                 try
                 {
-                    if (!mdl.ConflictingCourse(mdl.CourseId))
+                    if (!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.StudentId))
                     {
-                        mdl.AddCourseToSchedule(mdl.aStudent.StudentId, mdl.CourseId);
+                        ConnectionObj.AddCourseToSchedule(mdl.StudentId, mdl.CourseId);
                         mdl.DisplayMessege = "";
                     }
                 }
@@ -100,17 +115,15 @@ namespace RegistrationApp_Web_.Controllers
                 {
                     mdl.DisplayMessege = ex.Message;
                 }
-                mdl.Set();
             }
             else if (mdl.AddRemoveStr == "REMOVE")
             {
-                mdl.RemoveCourse(mdl.StudentId, mdl.CourseId);
-                mdl.Set();
+                ConnectionObj.RemoveCourse(mdl.StudentId, mdl.CourseId);
             }
 
-            mdl.Set();
+            mdl.Students = ConnectionObj.GetStudents(mdl.CourseId);
 
-            return View("StudentPage", mdl);
+            return PartialView("StudentRoster", mdl);
         }
     }
 }

@@ -33,25 +33,25 @@ namespace RegistrationApp_Web_.Controllers
         {
             ViewBag.Title = "TestLoggingIn";
 
-            if (loginInfo.CheckUserInfo(loginInfo.Username, loginInfo.Password))
+            if (ConnectionObj.CheckUserInfo(loginInfo.Username, loginInfo.Password))
             {
                 currentUser.Username = loginInfo.Username;
                 currentUser.Password = loginInfo.Password;
-                currentUser.userid = loginInfo.GetUserId(loginInfo.Username);
-                currentUser.studentId = loginInfo.GetStudentId(currentUser.userid);
+                currentUser.userid = ConnectionObj.GetUserId(loginInfo.Username);
+                currentUser.studentId = ConnectionObj.GetStudentId(currentUser.userid);
 
 
 
                 if (currentUser.studentId > -1)
                 {
-                    currentUser.Student = loginInfo.GetStudent(currentUser.studentId);
+                    currentUser.Student = ConnectionObj.GetStudent(currentUser.studentId);
                     return RedirectToAction("Home", "Student");
                 }
                 else
                     return RedirectToAction("Home", "Administrator"); 
-                //redirect to a admin page
             }
-            return View(loginInfo);
+
+            return View();
         }
     }
 }

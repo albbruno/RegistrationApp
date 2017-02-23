@@ -167,6 +167,9 @@
     <Content Include="Views\Administrator\Home.cshtml" />
     <Content Include="Views\Administrator\StudentsPage.cshtml" />
     <Content Include="Views\Administrator\StudentPage.cshtml" />
+    <Content Include="Views\Administrator\CoursePage.cshtml" />
+    <Content Include="Views\Administrator\ChooseCourse.cshtml" />
+    <Content Include="Views\Administrator\StudentRoster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -178,6 +181,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminHome.cs" />
+    <Compile Include="Models\ChooseCourse.cs" />
+    <Compile Include="Models\CourseRoster.cs" />
     <Compile Include="Models\CoursesPage.cs" />
     <Compile Include="Models\StudentCourseList.cs" />
     <Compile Include="Models\StudentHome.cs" />

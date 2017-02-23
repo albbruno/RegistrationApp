@@ -1,0 +1,23 @@
+﻿@model RegistrationApp_Web_.Models.StudentCourseList
+
+<h2>ChooseCourse</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Add Course By Id</legend>
+        <div class="editor-label">
+            @Html.LabelFor(x => x.CourseId)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(x => x.CourseId)
+            @Html.ValidationMessageFor(x => x.CourseId)
+        </div>
+
+        <input type="submit" value="SelectCourse" class="btn btn-default" />
+
+
+    </fieldset>
+}
+
+
