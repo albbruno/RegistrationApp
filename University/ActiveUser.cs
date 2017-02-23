@@ -75,6 +75,14 @@ namespace University
 
         }
 
-       
+        public void Clear()
+        {
+            Username = "";
+            Password = "";
+            userid = 0;
+            studentId = 0;
+            courseIds = null;
+            Student = null;
+        }
     }
 }

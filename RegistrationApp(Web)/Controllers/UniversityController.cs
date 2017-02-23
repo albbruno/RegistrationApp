@@ -17,6 +17,7 @@ namespace RegistrationApp_Web_.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Test";
+            currentUser.Clear();
             return RedirectToAction("Login", "University");
         }
 
@@ -24,7 +25,7 @@ namespace RegistrationApp_Web_.Controllers
         public ViewResult Login()
         {
             ViewBag.Title = "This Is The Login Page";
-            
+            currentUser.Clear();
             return View();
         }
 

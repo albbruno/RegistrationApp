@@ -22,6 +22,7 @@ namespace RegistrationApp_Web_.Controllers
             ViewBag.Title = "This Is The Home Page";
 
             StudentHome tmpMdl = new StudentHome();
+            tmpMdl.Init();
 
             return View("StudentHome", tmpMdl);
         }
@@ -51,9 +52,12 @@ namespace RegistrationApp_Web_.Controllers
         {
             try
             {
-                if (!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.CurrentUser.studentId))
+                bool fullTime;
+
+                if (!ConnectionObj.CheckStudentCourse(mdl.CourseId, mdl.CurrentUser.studentId, out fullTime))
                 {
                     ConnectionObj.AddCourseToSchedule(mdl.CurrentUser.studentId, mdl.CourseId);
+                    ConnectionObj.UpdateStudentHour(mdl.CurrentUser.studentId, fullTime);
                 }
                 mdl.DisplayMessege = "";
             }

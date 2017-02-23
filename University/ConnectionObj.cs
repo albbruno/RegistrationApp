@@ -10,7 +10,7 @@ namespace University
 {
     public static class ConnectionObj
     {
-        public static bool ConflictingCourse(int courseId, int studentId)
+        public static bool CheckStudentCourse(int courseId, int studentId, out bool fullTime)
         {
             //do stuff based on course id
             //check if the student has the course by id
@@ -19,6 +19,7 @@ namespace University
             List<iCourse> allCourse = GetAllCourses();
             List<iCourse> studentsCourses = GetCourses(studentId);
             int creditHourCount = 0;
+            fullTime = false;
 
 
 
@@ -71,6 +72,19 @@ namespace University
                 throw new Exception("This course is full");
             }
 
+            if (check == false)
+            {
+                if ((creditHourCount+course.CreditHour) >= 3)
+                {
+                    fullTime = true;
+                }
+                else if ((creditHourCount+ course.CreditHour) < 3)
+                {
+                    fullTime = false;
+                }
+            }
+
+
             return check;
         }
 
@@ -78,7 +92,7 @@ namespace University
         {
             int count = 0;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"GetCourseCount", sqlcon);
@@ -111,7 +125,7 @@ namespace University
         {
             int id = -1;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"GetUserId", sqlcon);
@@ -146,7 +160,7 @@ namespace University
         {
             bool infoCorrect = false;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"LoginInfoCheck", sqlcon);
@@ -181,12 +195,45 @@ namespace University
 
             return infoCorrect;
         }
+
+        public static bool UpdateStudentHour(int studentId, bool fullTime)
+        {
+            bool updated = false;
+
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
+            {
+
+                SqlCommand cmd = new SqlCommand($"UpdateCreditHour", sqlcon);
+                cmd.Parameters.Add(new SqlParameter("@studentId", studentId));
+                cmd.Parameters.Add(new SqlParameter("@fullTime", fullTime));
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    sqlcon.Open();
+                    int num = cmd.ExecuteNonQuery();
+                    updated = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"The issue is: {ex.Message}");
+                    updated = false;
+
+                }
+
+            }
+
+            return updated;
+        }
+
         public static List<iStudent> GetAllStudents()
         {
             string qry = $"SELECT * FROM Student";
             List<iStudent> students = new List<iStudent>();
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
                 SqlCommand cmd = new SqlCommand(qry, sqlcon);
 
@@ -218,7 +265,7 @@ namespace University
         {
             bool updated = false;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"RemoveFromStudentCourse", sqlcon);
@@ -251,7 +298,7 @@ namespace University
 
 
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"AddToStudentCourse", sqlcon);
@@ -283,7 +330,7 @@ namespace University
             string qry = $"SELECT * FROM Course";
             List<iCourse> courses = new List<iCourse>();
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
                 SqlCommand cmd = new SqlCommand(qry, sqlcon);
 
@@ -314,7 +361,7 @@ namespace University
             string qry = $"SELECT * FROM Course INNER JOIN Student_Course ON Course.CourseId = Student_Course.CourseId WHERE Student_Course.StudentId = {id}";
             List<iCourse> coursesList = new List<iCourse>();
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
 
@@ -348,7 +395,7 @@ namespace University
         {
             string qry = $"SELECT * FROM Student WHERE StudentId = {id}";
             Student std = null;
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand(qry, sqlcon);
@@ -384,7 +431,7 @@ namespace University
         {
             int id = -1;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
                 SqlCommand cmd = new SqlCommand($"GetStudentId", sqlcon);
@@ -424,7 +471,7 @@ namespace University
             string qry = $"SELECT * FROM Student INNER JOIN Student_Course ON Student.StudentId = Student_Course.StudentId WHERE Student_Course.CourseId = {cId}";
             List<iStudent> studentList = new List<iStudent>();
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
 
@@ -458,7 +505,7 @@ namespace University
             string qry = $"SELECT * FROM Course WHERE CourseId = {id}";
             iCourse course = null;
 
-            using (SqlConnection sqlcon = new SqlConnection("Data Source=al-database.ctprr3whvxjs.us-west-2.rds.amazonaws.com,1433;Initial Catalog=RegAppDB;Persist Security Info=True;User ID=aldatabase;Password=aldatabase2248;Encrypt=false;"))
+            using (SqlConnection sqlcon = new SqlConnection(ConnectionHelper.conString))
             {
 
 

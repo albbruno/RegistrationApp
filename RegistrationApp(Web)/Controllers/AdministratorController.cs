@@ -60,9 +60,14 @@ namespace RegistrationApp_Web_.Controllers
             {
                 try
                 {
-                    if(!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.StudentId))
+                    bool fullTime;
+
+                    if(!ConnectionObj.CheckStudentCourse(mdl.CourseId, mdl.StudentId, out fullTime))
                     {
                         ConnectionObj.AddCourseToSchedule(mdl.aStudent.StudentId, mdl.CourseId);
+                        ConnectionObj.UpdateStudentHour(mdl.aStudent.StudentId, fullTime);
+
+
                         mdl.DisplayMessege = "";
                     }
                 }
@@ -105,9 +110,13 @@ namespace RegistrationApp_Web_.Controllers
             {
                 try
                 {
-                    if (!ConnectionObj.ConflictingCourse(mdl.CourseId, mdl.StudentId))
+                    bool fullTime;
+
+                    if (!ConnectionObj.CheckStudentCourse(mdl.CourseId, mdl.StudentId, out fullTime))
                     {
                         ConnectionObj.AddCourseToSchedule(mdl.StudentId, mdl.CourseId);
+                        ConnectionObj.UpdateStudentHour(mdl.StudentId, fullTime);
+
                         mdl.DisplayMessege = "";
                     }
                 }
