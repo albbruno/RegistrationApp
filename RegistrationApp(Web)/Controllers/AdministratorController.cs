@@ -64,8 +64,8 @@ namespace RegistrationApp_Web_.Controllers
 
                     if(!ConnectionObj.CheckStudentCourse(mdl.CourseId, mdl.StudentId, out fullTime))
                     {
-                        ConnectionObj.AddCourseToSchedule(mdl.aStudent.StudentId, mdl.CourseId);
-                        ConnectionObj.UpdateStudentHour(mdl.aStudent.StudentId, fullTime);
+                        ConnectionObj.AddCourseToSchedule(mdl.StudentId, mdl.CourseId);
+                        ConnectionObj.UpdateStudentHour(mdl.StudentId, fullTime);
 
 
                         mdl.DisplayMessege = "";
@@ -75,12 +75,10 @@ namespace RegistrationApp_Web_.Controllers
                 {
                     mdl.DisplayMessege = ex.Message;
                 }
-                mdl.Set();
             }
             else if (mdl.AddRemoveStr == "REMOVE")
             {
                 ConnectionObj.RemoveCourse(mdl.StudentId, mdl.CourseId);
-                mdl.Set();
             }
 
             mdl.Set();
@@ -116,7 +114,6 @@ namespace RegistrationApp_Web_.Controllers
                     {
                         ConnectionObj.AddCourseToSchedule(mdl.StudentId, mdl.CourseId);
                         ConnectionObj.UpdateStudentHour(mdl.StudentId, fullTime);
-
                         mdl.DisplayMessege = "";
                     }
                 }
